@@ -12,7 +12,7 @@
 
     <div id='search-form'>
         <form method='POST' action='/query'>
-            <input class='input-large' placeholder='Enter Slogan here...' name="value" type="text-area" />
+            <input class='input-large text-thing' placeholder='Enter Slogan here...' name="value" type="text" />
             <input class='submit-button btn' type="submit" text="solve" />
         </form>
     </div>

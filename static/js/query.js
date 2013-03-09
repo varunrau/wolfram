@@ -1,7 +1,7 @@
 $(document).ready(function() {
-    $('#search-form').submit(function(e) {
-        e.preventDefault();
-        var posting = $.post("/query-async", {"value": $('.value').text()});
+    $('#search-form').click(function(e) {
+        // e.preventDefault();
+        var posting = $.post("/query-async", {"value": "" + $('.text-thing').val()});
         posting.done(function(data) {
             $('.table-wrapper').empty();
             var content = "<div class='output'>"
