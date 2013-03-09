@@ -4,6 +4,7 @@ import re
 from sympy import Matrix
 from numpy import linalg
 import math
+from solver import *
 
 @route('/')
 @view('main_template')
