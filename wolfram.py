@@ -1,5 +1,5 @@
 from bottle import route, run, template, view, post, request, get, static_file
-import nltk
+#import nltk
 import re
 import math
 from solver import *

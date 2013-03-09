@@ -52,7 +52,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
         values["force"] = None
         values["mass"] = None
         values["acceleration"] = None
-        values["velocity_i"] = None
+        values["vi"] = None
         values["velocity_f"] = None
         values["distance"] = None
         values["time"] = None
@@ -195,6 +195,8 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
         if height:
             height = float(height)
             values["height"] = height
+
+            """
         if height:
             time = math.sqrt(2*height/g)
             values["time"] = time
@@ -207,13 +209,13 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
         if theta and velocity_i and time:
             height = velocity_i * math.sin(theta) * time/2 - 1/2 * g * (time/2)**2
             values["height"] = height
-
+            """
 
         change = True
         while change:
             change = False
             if height:
-                time = math.sqrt(2*height/g)
+                time = math.sqrt(2 * height/g)
                 if time != values["time"]:
                     values["time"] = time
                     changes = True
