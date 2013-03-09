@@ -1,12 +1,8 @@
-to run just type: python makeQuery.py 
-
 import re
 import sys
 import urllib2
 import urllib
 from xml.dom.minidom import parseString
-
-
 
 def makeQuery(query):
     #modquery = urllib.urlencode({'q':query})
@@ -15,7 +11,7 @@ def makeQuery(query):
     data = file.read()
     file.close()
     dom = parseString(data)
-   
+
     xmlTag = dom.getElementsByTagName('plaintext')[0].toxml()
     xmlData=xmlTag.replace('<plaintext>','').replace('</plaintext>','')
 
