@@ -356,7 +356,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                 mass_basic = force/acceleration
                 if mass != values["mass"]:
                     steps.append("Mass = force/acceleration")
-                    steps.append("Mass = " + mass_basic)
+                    steps.append("Mass = " + str(mass_basic))
                     values["mass"] = mass
                     change = True
             if force and mass:
@@ -364,14 +364,14 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                 if acceleration != values["acceleration"]:
                     values["acceleration"] = acceleration
                     steps.append("Acceleration = force/mass")
-                    steps.append("Acceleration = " + acceleration)
+                    steps.append("Acceleration = " + str(acceleration))
                     change = True
             if velocity_i and time and acceleration:
                 distance_orig = velocity_i*time - .5 * acceleration*time*time
                 if distance_orig != values["distance"]:
                     values["distance"] = distance_orig
                     steps.append("Distance = v0*time - .5 * acceleration*time^2")
-                    steps.append("Distance = " + distance_orig)
+                    steps.append("Distance = " + str(distance_orig))
                     change = True
             if velocity_i and acceleration and distance:
                 velocityf2_orig = velocity_i**2 + 2 * acceleration*distance
@@ -379,7 +379,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                     values["velocityf2"] = velocityf2_orig
                     change = True
                     steps.append("Vf^2 = v0^2 + 2 * acceleration * distance")
-                    steps.append("Vf^2 = " + velocityf2_orig)
+                    steps.append("Vf^2 = " + str(velocityf2_orig))
             if velocity_i and acceleration and time:
                 velocityf = velocity_i + acceleration*time
                 if velocityf != values["velocityf"]:
@@ -387,7 +387,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                     change = True
                     print "adding to steps"
                     steps.append("V_f = v0 + acceleration * time")
-                    steps.append("V_f = " + velocityf)
+                    steps.append("V_f = " + str(velocityf))
                     print steps
             if distance and acceleration and time and time != 0:
                 vinitial_nof = (distance - .5 * acceleration*time*time)/time
@@ -395,7 +395,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                     values["vi"] = vinitial_nof
                     change = True
                     steps.append("V_0 = (distance - .5 * acceleration * time^2)/time")
-                    steps.append("V_0 = " + vinitial_nof)
+                    steps.append("V_0 = " + str(vinitial_nof))
             if acceleration and velocity_i and distance:
                 time_nof = quadratic(.5 * acceleration, velocity_i, -distance)
                 if time_nof != values["time"]:
@@ -409,70 +409,70 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                     values["acceleration"] = accel_nof
                     change = True
                     steps.append("Acceleration = (2 * (distance - v0 * time))/(time^2)")
-                    steps.append("Acceleration = " + accel_nof)
+                    steps.append("Acceleration = " + str(accel_nof))
             if velocity_f and acceleration and distance:
                 vinitial_f = math.sqrt(velocity_f*velocity_f - 2*acceleration*distance)
                 if vinitial_f != values["vi"]:
                     values["vi"] = vinitial_f
                     change = True
                     steps.append("V_0 = Sqrt(velocity_f^2 - 2 * acceleration * distance)")
-                    steps.append("V_0 = " + vinitial_f)
+                    steps.append("V_0 = " + str(vinitial_f))
             if velocity_f and velocity_i and distance:
                 accel_f = (velocity_f*velocity_f - velocity_i*velocity_i)/(2*distance)
                 if accel_f != values["acceleration"]:
                     values["acceleration"] = accel_f
                     change = True
                     steps.append("Acceleration = (velocity_f^2 - velocity_i^2)/ (2 * distance)")
-                    steps.append("Acceleration = " + accel_f)
+                    steps.append("Acceleration = " + str(accel_f))
             if velocity_f and velocity_i and acceleration:
                 distance_f = (velocity_f*velocity_f - velocity_i*velocity_i)/(2*acceleration)
                 if distance_f != values["distance"]:
                     values["distance"] = distance_f
                     change = True
                     steps.append("Distance = (velocity_f^2 - velocity_i^2)/ (2 * acceleration)")
-                    steps.append("Distance = " + distance_f)
+                    steps.append("Distance = " + str(distance_f))
             if velocity_f and acceleration and time:
                 vinitial_nod = velocity_f - acceleration * time
                 if vinitial_nod != values["vi"]:
                     values["vi"] = vinitial_nod
                     change = True
                     steps.append("V_0 = vf - acceleration * time")
-                    steps.append("V_0 = " + vinitial_f)
+                    steps.append("V_0 = " + str(vinitial_f))
             if velocity_f and velocity_i and time:
                 acceleration_nod = (velocity_f - velocity_i)/time
                 if acceleration_nod != values["acceleration"]:
                     values["acceleration"] = acceleration_nod
                     change = True
                     steps.append("Acceleration = (velocity_f - velocity_i)/time")
-                    steps.append("Acceleration = " + acceleration_nod)
+                    steps.append("Acceleration = " + str(acceleration_nod))
             if velocity_i and velocity_f and acceleration:
                 time_nod = (velocity_f - velocity_i)/acceleration
                 if time_nod != values["time"]:
                     values["time"] = time_nod
                     change = True
                     steps.append("Time = (velocity_f - velocity_i)/acceleration")
-                    steps.append("Time = " + time_nod)
+                    steps.append("Time = " + str(time_nod))
             if distance and time and velocity_f:
                 vinitial_noaccel = 2*distance/time - velocity_f
                 if vinitial_noaccel != values["vi"]:
                     values["vi"] = vinitial_noaccel
                     change = True
                     steps.append("V_0 = 2 * distance/time - vf")
-                    steps.append("V_0 = " + vinitial_noaccel)
+                    steps.append("V_0 = " + str(vinitial_noaccel))
             if distance and time and velocity_i:
                 vfinal_noaccel = 2*distance/time - velocity_i
                 if vfinal_noaccel != values["velocity_f"]:
                     values["velocity_f"] = vfinal_noaccel
                     change = True
                     steps.append("V_F = 2 * distance/time - v0")
-                    steps.append("V_F = " + vfinal_noaccel)
+                    steps.append("V_F = " + str(vfinal_noaccel))
             if distance and velocity_i and velocity_f:
                 time_noaccel = 2*distance/(velocity_i + velocity_f)
                 if time_noaccel != values["time"]:
                     values["time"] = time_noaccel
                     change = True
                     steps.append("Time = 2 * distance/(v0 + vf)")
-                    steps.append("Time = " + time_noaccel)
+                    steps.append("Time = " + str(time_noaccel))
         return values
 
 
