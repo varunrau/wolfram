@@ -117,21 +117,21 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                 dist1 = velocity_i * time - 1/2 * g * math.sin(theta) * time**2
                 if dist1 != values["distance"]:
                     steps.append("Distance = V_0 * time - 1/2 * g * Sin(theta) * time^2")
-                    steps.append("Distance = " + dist1)
+                    steps.append("Distance = " + str(dist1))
                     values["distance"] = dist1
                     change = True
             if distance and time != 0 and theta:
                 velocity_i = (distance - .5 * g * math.sin(theta) * time**2)/time
                 if velocity_i != values["vi"]:
                     steps.append("(V_0 = distance - 1/2 * g * Sin(theta) * time^2)/time")
-                    steps.append("V_0 = " + velocity_i)
+                    steps.append("V_0 = " + str(velocity_i))
                     values["vi"] = velocity_i
                     change = True
             if velocity_i and distance and theta:
                 time_nof = quadratic(.5 * g * math.sin(theta), velocity_i, -distance)
                 if time_nof != values["time"]:
                     steps.append("Time = (-v0 +- sqrt(v0^2 - 4*(.5*g*Sin(theta))*(-distance)))/(2*g*Sin(theta))")
-                    steps.append("Time = " + time_nof)
+                    steps.append("Time = " + str(time_nof))
                     values["time"] = time_nof
                     change = True
             if theta and velocity_i and acceleration:
@@ -141,34 +141,34 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                     if dist1 != values["distance"]:
                         values["distance"] = dist1
                         steps.append("Distance = velocity_i * time - 1/2 * acceleration * time^2")
-                        steps.append("Distance = " + dist1)
+                        steps.append("Distance = " + str(dist1))
                         change = True
                 if distance:
                     time_nof = quadratic(.5 * acceleration, velocity_i, -distance)
                     if time_nof != values["time"]:
                         values["time"] = time_nof
                         steps.append("Time = (-v0 +- sqrt(v0^2 - 4*(.5*g*Sin(theta))*(-distance)))/(2*g*Sin(theta))")
-                        steps.append("Time = " + time.nof)
+                        steps.append("Time = " + str(time.nof))
                         change = True
                 if distance and time and height:
                     height = height * math.sin(theta)
                     if height != values["height"]:
                         values["height"] = height
                         steps.append("Height = Height * Sin(theta)")
-                        steps.append("Height = " + height)
+                        steps.append("Height = " + str(height))
                         change = True
             elif theta and force:
                 mass = force/(g * math.sin(theta))
                 if mass != values["mass"]:
                     values["mass"] = mass
                     steps.append("Mass = force/(g * Sin(theta))")
-                    steps.append("Mass = " + mass)
+                    steps.append("Mass = " + str(mass))
                     change = True
                 acceleration = force/mass
                 if acceleration != values["acceleration"]:
                     values["acceleration"] = mass
                     steps.append("Acceleration = force/mass")
-                    steps.append("Acceleration = " + acceleration)
+                    steps.append("Acceleration = " + str(acceleration))
                     change = True
         return values
 
@@ -228,20 +228,20 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                 if time != values["time"]:
                     values["time"] = time
                     steps.append("Time = Sqrt(2 * height/gravity)")
-                    steps.append("Time = " + time)
+                    steps.append("Time = " + str(time))
                     changes = True
             if velocity_i and time:
                 distance = velocity_i * time
                 if distance != values["distance"]:
                     steps.append("Distance = v0 * time")
-                    steps.append("Distance = " + distance)
+                    steps.append("Distance = " + str(distance))
                     values["distance"] = distance
                     changes = True
             if time and distance:
                 velocity_i = distance/time
                 if velocity_i != values["vi"]:
                     steps.append("V_0 = distance/time")
-                    steps.append("V_0 = " + velocity_i)
+                    steps.append("V_0 = " + str(velocity_i))
                     values["vi"] = velocity_i
                     changes = True
             if theta and velocity_i:
@@ -249,19 +249,19 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                 if time != values["time"]:
                     values["time"] = time
                     steps.append("Time = 4 * v0 * Sin(theta)/gravity")
-                    steps.append("Time = " + time)
+                    steps.append("Time = " + str(time))
                     changes = True
                 distance = velocity_i * math.cos(theta) * time
                 if distance != values["distance"]:
                     values["distance"] = time
                     steps.append("Distance = v0 * Cos(theta) * time")
-                    steps.append("Distance = " + distance)
+                    steps.append("Distance = " + str(distance))
                     changes = True
                 height = velocity_i * math.sin(theta) * time/2 - 1/2 * g * (time/2)**2
                 if height != values["height"]:
                     values["height"] = height
                     steps.append("Height = v0 * Sin(theta) * time/2 - 1/2 * g * (time/2)^2")
-                    steps.append("Height = " + height)
+                    steps.append("Height = " + str(height))
                     changes = True
         return values
 
