@@ -35,6 +35,35 @@ def qa():
     values = solver(vals_list[0], vals_list[1], vals_list[2], vals_list[3], vals_list[4], vals_list[5], vals_list[6], vals_list[7], vals_list[8], vals_list[9], vals_list[10])
     return values
 
+def parser(str):
+    strlist = str.split()
+    val_dict = {}
+    for i in range(len(strlist)):
+        unit = ""
+        if re.match("\d+\.*\d*", strlist[i]):
+            if i != (len(strlist) - 1):
+                i += 1
+            check = strlist[i]
+            if check == 'N' or check == 'newtons' or check == 'newton' or check == 'g/m/s/s' or check == 'grams per meters per second squared' or check == 'g/m/s^2':
+                unit = "newtons"
+            elif check == 'g' or check == 'grams' or check == 'Grams' or check == 'G':
+                unit = "grams"
+            elif strlist[i] == 'meters per second squared' or check == 'm/s/s' or check == 'm/s^2':
+                unit = 'meters per second squared'
+            elif strlist[i] == 'meters per second' or check == "m/s" or check == "meter per second" or check == "meter per seconds":
+                unit = "meters per second"
+            elif strlist[i] == "seconds" or check == "s" or check == "second":
+                unit = "seconds"
+            elif strlist[i] == "meters" or check == "meter" or check == "m":
+                unit = "meters"
+            elif strlist[i] == "degrees" or check == "degree" or check == "\*":
+                unit = "degrees"
+            val_dict[i] = strlist[i - 1] + " " + unit
+        if strlist[i] == "d==tance" and re.match("\d+\.\d+", strlist[i + 2]):
+            val_dict[i] = strlist[i + 2] + " " + "meters" + "(d==tance)"
+    return val_dict
+
+
 def get_vals(vals_dict):
     non_none = set()
     to_return = [None for x in range(12)]
