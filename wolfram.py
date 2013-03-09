@@ -22,6 +22,7 @@ def q():
     for key in values:
         if values[key] is not None:
             new_dict[key] = values[key]
+    steps = []
     steps = oursteps()
     return dict(values=new_dict, steps=steps)
 
