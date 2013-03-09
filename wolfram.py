@@ -3,6 +3,7 @@ from bottle import route, run, template, view, post, request, get, static_file
 import re
 import math
 from solver import *
+from makeQuery import *
 
 @route('/')
 @view('main_template')
@@ -17,6 +18,8 @@ def q():
 
 @post('/query-async')
 def qa():
+    query_string = request.forms.get('value')
+    vals_dict = makeQuery(query_string)
     values = solver(None, None, None, None, None, 35, None, None, None, None, 22)
     return values
 
