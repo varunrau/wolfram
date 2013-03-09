@@ -9,16 +9,21 @@ from solver import *
 @route('/')
 @view('main_template')
 def main():
-    return dict(greeting='Wolfram')
+    return dict(values=None)
 
 @post('/query')
-@view('query_template')
+@view('main_template')
 def q():
     value = request.forms.get('value')
-    values = solver(5, 10, None, 15, None, 20)
+    # values = solver(5, 10, None, 15, None, 20)
+    values = {'hi': 1, 'hello':2, 'world':3}
     return dict(values=values)
-    # values, question = evaluate(value)
-    # return dict(values=values, question=question)
+
+@post('/query-async')
+def qa():
+    print 'hi'
+    values = {'hi': 1, 'hello':2, 'world':3}
+    return values
 
 def evaluate(query):
     values_regex = re.compile('\w+ is \d+')
