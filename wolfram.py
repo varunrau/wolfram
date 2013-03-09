@@ -19,6 +19,12 @@ def q():
     values = {'hi': 1, 'hello':2, 'world':3}
     return dict(values=values)
 
+@post('/query-async')
+def qa():
+    print 'hi'
+    values = {'hi': 1, 'hello':2, 'world':3}
+    return values
+
 def evaluate(query):
     values_regex = re.compile('\w+ is \d+')
     question_regex = re.compile('\w+\?')
