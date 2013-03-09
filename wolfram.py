@@ -17,7 +17,7 @@ def q():
 
 @post('/query-async')
 def qa():
-    values = solver(None, None, None, 21.8, None, None, None, None, None, 11.1, None)
+    values = solver(None, None, None, None, None, 35, None, None, None, None, 22)
     return values
 
 def evaluate(query):

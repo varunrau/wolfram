@@ -1,7 +1,8 @@
 import math
 def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f=None, distance=None, time=None, torque=None, radius=None, theta=None, height = None):
 
-    theta = theta * math.pi/180
+    if theta:
+        theta = theta * math.pi/180
     g = 9.8
     values = {}
     types = {}
@@ -60,27 +61,46 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
         values["theta"] = None
         values["height"] = None
 
-        if velocity_i and time and theta:
-            dist1 = velocity_i * time - 1/2 * g * math.sin(theta) * time**2
-            values["distance"] = dist1
-        if distance and time != 0 and theta:
-            velocity_i = (distance - .5 * g * math.sin(theta) * time**2)/time
+        if force:
+            force = float(force)
+            values["force"] = force
+        if mass:
+            mass = float(mass)
+            values["mass"] = mass
+        if acceleration:
+            acceleration = float(acceleration)
+            values["acceleration"] = acceleration
+        if velocity_i:
+            velocity_i = float(velocity_i)
             values["vi"] = velocity_i
-        if velocity_i and distance and theta:
-            time_nof = quadratic(.5 * g * math.sin(theta), velocity_i, -distance)
-            values["time"] = time_nof
+        if velocity_f:
+            velocity_f = float(velocity_f)
+            values["velocity_f"] = velocity_f
+        if distance:
+            distance = float(distance)
+            values["distance"] = distance
+        if time:
+            time = float(time)
+            values["time"] = time
+        if torque:
+            torque = float(torque)
+            values["torque"] = torque
+        if radius:
+            radius = float(radius)
+            values["radius"] = radius
+        if theta:
+            theta = float(theta)
+            values["theta"] = theta
+        if height:
+            height = float(height)
+            values["height"] = height
+
         if theta:
             if acceleration is None:
                 acceleration = g * math.sin(theta)
             else:
                 acceleration -= g * math.sin(theta)
             values["acceleration"] = acceleration
-            if distance and time and height:
-                height = height * math.sin(theta)
-                values["height"] = height
-        if theta and force:
-            mass = force/(g * math.sin(theta))
-            values["mass"] = mass
 
         change = True
         while change:
@@ -100,7 +120,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                 if time_nof != values["time"]:
                     values["time"] = time_nof
                     change = True
-            if theta and velocity_i:
+            if theta and velocity_i and acceleration:
                 time = -velocity_i/acceleration
                 if time:
                     dist1 = velocity_i * time - 1/2 * acceleration * time**2
@@ -129,6 +149,52 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
         return values
 
     def projectileproblem(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f=None, distance=None, time=None, torque=None, radius=None, theta=None, height = None):
+
+        values["force"] = None
+        values["mass"] = None
+        values["acceleration"] = None
+        values["vi"] = None
+        values["velocity_f"] = None
+        values["distance"] = None
+        values["time"] = None
+        values["torque"] = None
+        values["radius"] = None
+        values["theta"] = None
+        values["height"] = None
+
+        if force:
+            force = float(force)
+            values["force"] = force
+        if mass:
+            mass = float(mass)
+            values["mass"] = mass
+        if acceleration:
+            acceleration = float(acceleration)
+            values["acceleration"] = acceleration
+        if velocity_i:
+            velocity_i = float(velocity_i)
+            values["vi"] = velocity_i
+        if velocity_f:
+            velocity_f = float(velocity_f)
+            values["velocity_f"] = velocity_f
+        if distance:
+            distance = float(distance)
+            values["distance"] = distance
+        if time:
+            time = float(time)
+            values["time"] = time
+        if torque:
+            torque = float(torque)
+            values["torque"] = torque
+        if radius:
+            radius = float(radius)
+            values["radius"] = radius
+        if theta:
+            theta = float(theta)
+            values["theta"] = theta
+        if height:
+            height = float(height)
+            values["height"] = height
         if height:
             time = math.sqrt(2*height/g)
             values["time"] = time
@@ -141,6 +207,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
         if theta and velocity_i and time:
             height = velocity_i * math.sin(theta) * time/2 - 1/2 * g * (time/2)**2
             values["height"] = height
+
 
         change = True
         while change:
@@ -155,11 +222,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                 if distance != values["distance"]:
                     values["distance"] = distance
                     changes = True
-            if velocity_i and distance:
-                time = math.sqrt(2*height/g)
-                if time != values["time"]:
-                    values["time"] = time
-                    changes = True
+            if time and distance:
                 velocity_i = distance/time
                 if velocity_i != values["vi"]:
                     values["vi"] = velocity_i
@@ -335,4 +398,4 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
     types["hill"] = hillproblem(force, mass, acceleration, velocity_i, velocity_f, distance, time, torque, radius, theta, height)
     types["projectile"] = projectileproblem(force, mass, acceleration, velocity_i, velocity_f, distance, time, torque, radius, theta, height)
     types["kinematics"] = kinematicproblem(force, mass, acceleration, velocity_i, velocity_f, distance, time, torque, radius, theta, height)
-    return types["hill"]
+    return types["projectile"]
