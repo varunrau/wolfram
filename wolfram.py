@@ -13,14 +13,11 @@ def main():
 @view('main_template')
 def q():
     value = request.forms.get('value')
-    # values = solver(5, 10, None, 15, None, 20)
-    values = {'hi': 1, 'hello':2, 'world':3}
     return dict(values=values)
 
 @post('/query-async')
 def qa():
-    print 'hi'
-    values = {'hi': 1, 'hello':2, 'world':3}
+    values = solver(5, 10, None, 15, None, 20)
     return values
 
 def evaluate(query):
