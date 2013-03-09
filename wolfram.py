@@ -49,9 +49,10 @@ def images(filename):
     def quadratic(a, b, c):
     	return max((-b + math.sqrt(b*b-4*a*c))/(2*a), (-b + math.sqrt(b*b-4*a*c))/(2*a))
 
-    def matrixz(force, mass, acceleration, velocity_i, velocity_f, distance, time)
+    def matrixz(force, mass, acceleration, velocity_i, velocity_f, distance, time, torque, radius, theta)
+    """
     	force_basic = [mass*acceleration, force]
-        distance_orig = [velocity_i*time, 1/2 * acceleration * time * time, distance]
+        distance_orig = [velocity_i*time, 1/2*acceleration*time*time, distance]
         velocityf2_orig = [velocity_i*velocity_i, 2*acceleration*distance, velocity_f*velocity_f]
         velocity_f_orig = [velocity_i, acceleration*time, velocity_f]
 
@@ -72,6 +73,59 @@ def images(filename):
         time_noaccel = [2*distance/(velocity_i + velocity_f), time]
         vinitial_noaccel = [2*distance/time, -velocity_f, velocity_i]
         vfinal_noaccel = [2*distance/time, -velocity_i, velocity_f]
+        """
+        force = mass*acceleration
+        mass = force/acceleration
+        acceleration_basic = force/mass
+        distance_orig = velocity_i*time - 1/2*acceleration*time*time
+        velocityf2_orig = velocity_i**2 + 2*acceleration*distance
+        velocity_f_orig = velocity_i + acceleration*time
+        vinitial_nof = (distance - .5*acceleration*time*time)/time
+        time_nof = quadratic(1/2*acceleration, velocity_i, -distance)
+        accel_nof = (2*(distance - velocity_i*time))/(time*time)
+        vinitial_f = math.sqrt(velocity_f*velocity_f - 2*acceleration*distance)
+        accel_f = (velocity_f*velocity_f - velocity_i*velocity_i)/(2*distance)
+        distance_f = (velocity_f*velocity_f - velocity_i*velocity_i)/(2*acceleration)
+        vinitial_nod = velocity_f - acceleration * time
+        acceleration_nod = (velocity_f - velocity_i)/time
+        time_nod = (velocity_f - velocity_i)/acceleration
+        vinitial_noaccel = 2*distance/time - velocity_f
+        vfinal_noaccel = 2*distance/time - velocity_i
+        time_noaccel = 2*distance/(velocity_i + velocity_f)
+
+        hooks_force = -spring_constant * spring_displacement
+        torque = radius*force*math.sin(theta)
+        theta = math.asine(torque/(radius*force))
+        force = torque/(radius*math.sin(theta))
+        radius = torque/(force*sin(theta))
+
+        change = True
+        values = {}
+        while change:
+            change = False
+            if mass and acceleration:
+                force = mass*acceleration
+            if force != values["force"]:
+                values["force"] = force
+                change = True
+            mass_basic = force/acceleration
+            if mass != values["mass"]:
+                values["mass"] = mass
+                change = True
+            acceleration_basic = force/mass
+            if acceleration != values["acceleration"]:
+                values["acceleration"] = acceleration
+                change = True
+            distance_orig = velocity_i*time - 1/2*acceleration*time*time
+            velocityf2_orig = velocity_i**2 + 2*acceleration*distance
+            velocity_f_orig = velocity_i + acceleration*time
+            vinitial_nof = (distance - .5*acceleration*time*time)/time
+            time_nof = quadratic(1/2*acceleration, velocity_i, -distance)
+            accel_nof = (2*(distance - velocity_i*time))/(time*time)
+
+
+
+
         
 
 
