@@ -95,6 +95,8 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
             height = float(height)
             values["height"] = height
 
+        steps = []
+
         if theta:
             if acceleration is None:
                 acceleration = g * math.sin(theta)
