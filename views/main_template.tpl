@@ -1,1 +1,4 @@
-<h1>{{greeting}}</h1>
+<form method='POST' action='/query'>
+    <input name="value" type="text" />
+    <input type="submit" />
+</form>
