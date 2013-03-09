@@ -21,3 +21,7 @@
     border-right: 3px solid #800000;
     -webkit-border-radius: 4px;
 }
+
+.subtitle {
+    display: block;
+}

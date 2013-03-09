@@ -8,11 +8,14 @@
 
     <div class='logo'>
         <img src='logo.png'></img>
+        <div class='subtitle'>
+            Physics Solver
+        </div>
     </div>
 
     <div id='search-form'>
         <form method='POST' action='/query'>
-            <input class='input-large' placeholder='Enter Slogan here...' name="value" type="text-area" />
+            <textarea class='input-large' placeholder='Enter Slogan here...' name="value" type="text-area"> </textarea>
             <input class='submit-button btn' type="submit" text="solve" />
         </form>
     </div>
@@ -39,6 +42,22 @@
                             </tr>
                         %end
                 </table>
+                    <table class='table table-bordered'>
+                    <caption style="padding: 10px;">Here are the steps used to solve the problem.</caption>
+                    <thead>
+                        <th></th>
+                        <th>Steps</th>
+                    </thead>
+                    <tbody>
+                        %for step in steps:
+                            <tr class='row'>
+                                <td>
+                                    {{step}}
+                                </td>
+                            </tr>
+                        %end
+                </table>
+
             </div>
         </div>
     %end

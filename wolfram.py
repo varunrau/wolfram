@@ -8,13 +8,13 @@ from makeQuery import *
 @route('/')
 @view('main_template')
 def main():
-    return dict(values=None)
+    return dict(values=None, steps=None)
 
 @post('/query')
 @view('main_template')
 def q():
     value = request.forms.get('value')
-    vals_dict = create_query(value)
+    vals_dict = parser(value)
     print vals_dict
     vals_list = get_vals(vals_dict)
     values = solver(vals_list[0], vals_list[1], vals_list[2], vals_list[3], vals_list[4], vals_list[5], vals_list[6], vals_list[7], vals_list[8], vals_list[9], vals_list[10])
@@ -22,22 +22,17 @@ def q():
     for key in values:
         if values[key] is not None:
             new_dict[key] = values[key]
-    return dict(values=new_dict)
+    steps = oursteps()
+    return dict(values=new_dict, steps=steps)
 
 @post('/query-async')
 def qa():
-    query_dict = request.POST.dict
-    query_string = query_dict['value']
-    print query_string
-    vals_dict = create_query(query_string)
-    print vals_dict
-    vals_list = get_vals(vals_dict)
-    values = solver(vals_list[0], vals_list[1], vals_list[2], vals_list[3], vals_list[4], vals_list[5], vals_list[6], vals_list[7], vals_list[8], vals_list[9], vals_list[10])
-    return values
+    return ''
 
 def parser(str):
     strlist = str.split()
     val_dict = {}
+    offset = 0
     for i in range(len(strlist)):
         unit = ""
         if re.match("\d+\.*\d*", strlist[i]):
@@ -48,19 +43,20 @@ def parser(str):
                 unit = "newtons"
             elif check == 'g' or check == 'grams' or check == 'Grams' or check == 'G':
                 unit = "grams"
-            elif strlist[i] == 'meters per second squared' or check == 'm/s/s' or check == 'm/s^2':
+            elif strlist[i] == 'meters per second squared' or check == 'm/s/s' or check == 'm/s^2' or check == 'm/s2':
                 unit = 'meters per second squared'
             elif strlist[i] == 'meters per second' or check == "m/s" or check == "meter per second" or check == "meter per seconds":
                 unit = "meters per second"
-            elif strlist[i] == "seconds" or check == "s" or check == "second":
+            elif check == "seconds" or check == "s." or check == "second" or check == "seconds.":
+                print 'seconds'
                 unit = "seconds"
             elif strlist[i] == "meters" or check == "meter" or check == "m":
                 unit = "meters"
             elif strlist[i] == "degrees" or check == "degree" or check == "\*":
                 unit = "degrees"
             val_dict[i] = strlist[i - 1] + " " + unit
-        if strlist[i] == "d==tance" and re.match("\d+\.\d+", strlist[i + 2]):
-            val_dict[i] = strlist[i + 2] + " " + "meters" + "(d==tance)"
+        if strlist[i] == "distance" and re.match("\d+\.\d+", strlist[i + 2]):
+            val_dict[i] = strlist[i + 2] + " " + "meters" + "(distance)"
     return val_dict
 
 
