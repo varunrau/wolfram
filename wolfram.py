@@ -1,7 +1,7 @@
 from bottle import route, run
 
 @route('/')
-def hello():
+def helloworld():
     return "Hello World!"
 
 run(host='localhost', port=8000, debug=True)
