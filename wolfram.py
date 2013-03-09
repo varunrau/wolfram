@@ -199,19 +199,20 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                 change = True
         if distance and acceleration and time and time != 0:
             vinitial_nof = (distance - .5 * acceleration*time*time)/time
-            if vinitial_nof != values["vinitial_nof"]:
-                values["vinitial_nof"] = vinitial_nof
+            if vinitial_nof != values["vi"]:
+                values["vi"] = vinitial_nof
                 change = True
         if acceleration and velocity_i and distance:
             time_nof = quadratic(.5 * acceleration, velocity_i, -distance)
-            if time_nof != values["t_nof"]:
-                values["t_nof"] = time_nof
+            if time_nof != values["t"]:
+                values["t"] = time_nof
                 change = True
         if distance and velocity_i and time and time != 0:
             accel_nof = (2 * (distance - velocity_i*time))/(time*time)
-            if accel_nof != values["a_nof"]:
-                values["a_nof"] = accel_nof
+            if accel_nof != values["acceleration"]:
+                values["acceleration"] = accel_nof
                 change = True
+
     return values
 
 run(host='localhost', port=8000, debug=True)
