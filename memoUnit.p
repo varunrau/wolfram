@@ -9,14 +9,22 @@ Vweight
 p4
 sS'is'
 p5
-NsS'mass'
+NsS'10g'
 p6
-Vmass  
+V10 grams
 p7
-sS'cleaver'
+sS'mass'
 p8
-NsS'speed'
+Vmass  
 p9
-Vspeed  
+sS'cleaver'
 p10
+NsS'speed'
+p11
+Vspeed  
+p12
+sS'10m/s'
+p13
+V10 m/s  (meters per second)
+p14
 s.

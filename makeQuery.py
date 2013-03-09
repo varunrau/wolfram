@@ -1,4 +1,4 @@
-#to run just type: python makeQuery.py 
+#to run just type: python makeQuery.py
 import ast
 import pickle
 import re
@@ -29,7 +29,6 @@ def pearson_def(x, y):
         xdiff2 += xdiff * xdiff
         ydiff2 += ydiff * ydiff
     return diffprod / math.sqrt(xdiff2 * ydiff2)
-    
 
 def makeQuery(query):
     #modquery = urllib.urlencode({'q':query})
@@ -38,7 +37,7 @@ def makeQuery(query):
     data = file.read()
     file.close()
     dom = parseString(data)
-   
+
     xmlTag = dom.getElementsByTagName('plaintext')[0].toxml()
     xmlData=xmlTag.replace('<plaintext>','').replace('</plaintext>','')
     physicalUnit = '(physical quantity)'
@@ -71,8 +70,8 @@ for word in lines:
     readFile3 = open("hillProb.p", "rb")
     readFile4 = open("kineProb.p", "rb")
     readFile5 = open("projProb.p", "rb")
-    
-    try: 
+
+    try:
         memoUnit = pickle.load(readFile1)
         """
         memoProb = pickle.load(readFile2)
@@ -91,15 +90,15 @@ for word in lines:
         if not word in memoUnit:
             memoUnit[word] = makeQuery(word)
         dict[word] = memoUnit[word]
-        
-        
+
+
         """maxValLen=0
-        for counter in range(3):    
-           
+        for counter in range(3):
+
             if word not in memoHill:
                 maxValLen = max([len(memoHill[x]) for x in memoHill])
                 memoHill[word] = []
-                for count in range(maxValLen):                  
+                for count in range(maxValLen):
                     memoHill[word].append(0)
                 memoHill[word].append(1)
             else:
@@ -113,11 +112,11 @@ for word in lines:
                         i+=1
                     else:
                         memoHill[word].append(lastVal)
-           
+
             if word not in memoKine:
                 maxValLen = max([len(memoKine[x]) for x in memoKine])
                 memoKine[word] = []
-                for count in range(maxValLen):                  
+                for count in range(maxValLen):
                     memoKine[word].append(0)
                 memoKine[word].append(1)
             else:
@@ -131,11 +130,11 @@ for word in lines:
                         i+=1
                     else:
                         memoKine[word].append(lastVal)
-           
+
             if word not in memoProj:
                 maxValLen = max([len(memoProj[x]) for x in memoProj])
                 memoProj[word] = []
-                for count in range(maxValLen):                  
+                for count in range(maxValLen):
                     memoProj[word].append(0)
                 memoProj[word].append(1)
             else:
@@ -155,7 +154,6 @@ for word in lines:
 
 
 try:
- 
     writeFile=open("memoUnit.p", "wb")
     pickle.dump(memoUnit, writeFile)
     writeFile.close()
