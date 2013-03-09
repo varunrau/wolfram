@@ -19,7 +19,6 @@ def q():
 
 @post('/query-async')
 def qa():
-    print 'hi'
     values = {'hi': 1, 'hello':2, 'world':3}
     return values
 
