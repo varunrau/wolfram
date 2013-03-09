@@ -76,14 +76,12 @@ def get_vals(vals_dict):
                 to_return[3] = value.split()[0]
             elif 'meters per second' in value:
                 to_return[4] = value.split()[0]
-            elif 'meters' in value:
+            elif 'meters(distance)' in value:
                 to_return[5] = value.split()[0]
             elif 'seconds' in value:
                 to_return[6] = value.split()[0]
             elif 'stuff' in value:
                 to_return[7] = value.split()[0]
-            elif 'meters' in value:
-                to_return[8] = value.split()[0]
             elif 'degrees' in value:
                 to_return[9] = value.split()[0]
             elif 'meters' in value:
