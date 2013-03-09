@@ -1,3 +1,4 @@
+import math
 def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f=None, distance=None, time=None, torque=None, radius=None, theta=None):
 
     def quadratic(a, b, c):
@@ -211,7 +212,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                 change = True
         if velocity_f & velocity_i & time:
             acceleration_nod = (velocity_f - velocity_i)/time
-            if acceleration_nod != values["acceleration"]
+            if acceleration_nod != values["acceleration"]:
                 values["acceleration"] = acceleration_nod
                 change = True
         if velocity_i & velocity_f & acceleration:
