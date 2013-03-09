@@ -1,6 +1,7 @@
 import math
 def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f=None, distance=None, time=None, torque=None, radius=None, theta=None, height = None):
 
+    theta = theta * math.pi/180
     g = 9.8
     values = {}
     types = {}
@@ -45,60 +46,69 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
         values["height"] = height
 
 
-    def hillproblem(mass, accel, distance, theta, height, v0, time, force):
-        if v0 & time & theta:
-            dist1 = v0 * time - 1/2 * g * math.sin(theta) * time**2
+    def hillproblem(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f=None, distance=None, time=None, torque=None, radius=None, theta=None, height = None):
+
+        values["force"] = None
+        values["mass"] = None
+        values["acceleration"] = None
+        values["velocity_i"] = None
+        values["velocity_f"] = None
+        values["distance"] = None
+        values["time"] = None
+        values["torque"] = None
+        values["radius"] = None
+        values["theta"] = None
+        values["height"] = None
+
+        if velocity_i and time and theta:
+            dist1 = velocity_i * time - 1/2 * g * math.sin(theta) * time**2
             values["distance"] = dist1
         if distance and time != 0 and theta:
-            v0 = (distance - .5 * g * math.sin(theta) * time**2)/time
-            values["vi"] = v0
-        if v0 and distance and theta:
-            time_nof = quadratic(.5 * g * math.sin(theta), v0, -distance)
+            velocity_i = (distance - .5 * g * math.sin(theta) * time**2)/time
+            values["vi"] = velocity_i
+        if velocity_i and distance and theta:
+            time_nof = quadratic(.5 * g * math.sin(theta), velocity_i, -distance)
             values["time"] = time_nof
-        if theta & v0:
-            if accel == 0:
-                accel = g * math.sin(theta)
+        if theta:
+            if acceleration is None:
+                acceleration = g * math.sin(theta)
             else:
-                accel -= g * math.sin(theta)
-            values["acceleration"] = accel
+                acceleration -= g * math.sin(theta)
+            values["acceleration"] = acceleration
             if distance and time and height:
                 height = height * math.sin(theta)
                 values["height"] = height
-        if theta & force:
-            mass = force/(g * sin(theta))
+        if theta and force:
+            mass = force/(g * math.sin(theta))
             values["mass"] = mass
 
         change = True
         while change:
             change = False
-            if v0 & time & theta:
-                dist1 = v0 * time - 1/2 * g * math.sin(theta) * time**2
+            if velocity_i and time and theta:
+                dist1 = velocity_i * time - 1/2 * g * math.sin(theta) * time**2
                 if dist1 != values["distance"]:
                     values["distance"] = dist1
                     change = True
             if distance and time != 0 and theta:
-                v0 = (distance - .5 * g * math.sin(theta) * time**2)/time
-                if v0 != values["vi"]:
-                    values["vi"] = v0
+                velocity_i = (distance - .5 * g * math.sin(theta) * time**2)/time
+                if velocity_i != values["vi"]:
+                    values["vi"] = velocity_i
                     change = True
-            if v0 and distance and theta:
-                time_nof = quadratic(.5 * g * math.sin(theta), v0, -distance)
+            if velocity_i and distance and theta:
+                time_nof = quadratic(.5 * g * math.sin(theta), velocity_i, -distance)
                 if time_nof != values["time"]:
                     values["time"] = time_nof
                     change = True
-            if theta & v0:
-                if accel == 0:
-                    accel = g * math.sin(theta)
-                else:
-                    accel -= g * math.sin(theta)
-                time = -v0/accel
+            if theta and velocity_i:
+                time = -velocity_i/acceleration
                 if time:
-                    dist1 = v0 * time - 1/2 * accel * time**2
+                    dist1 = velocity_i * time - 1/2 * acceleration * time**2
                     if dist1 != values["distance"]:
                         values["distance"] = dist1
                         change = True
                 if distance:
-                    time_nof = quadratic(.5 * accel, v0, -distance)
+                    time_nof = quadratic(.5 * acceleration, velocity_i, -distance)
                     if time_nof != values["time"]:
                         values["time"] = time_nof
                         change = True
@@ -107,29 +117,29 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                     if height != values["height"]:
                         values["height"] = height
                         change = True
-            elif theta & force:
-                mass = force/(g * sin(theta))
+            elif theta and force:
+                mass = force/(g * math.sin(theta))
                 if mass != values["mass"]:
                     values["mass"] = mass
                     change = True
-                accel = force/mass
-                if accel != values["acceleration"]:
+                acceleration = force/mass
+                if acceleration != values["acceleration"]:
                     values["acceleration"] = mass
                     change = True
         return values
 
-    def projectileproblem(accel, distance, theta, height, v0, time):
+    def projectileproblem(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f=None, distance=None, time=None, torque=None, radius=None, theta=None, height = None):
         if height:
             time = math.sqrt(2*height/g)
             values["time"] = time
-        if v0 and time:
-            distance = v0 * time
+        if velocity_i and time:
+            distance = velocity_i * time
             values["distance"] = distance
-        if v0 and distance:
-            v0 = distance/time
-            values["vi"] = v0
-        if theta and v0 and time:
-            height = v0 * math.sin(theta) * time/2 - 1/2 * g * (time/2)**2
+        if velocity_i and distance:
+            velocity_i = distance/time
+            values["vi"] = velocity_i
+        if theta and velocity_i and time:
+            height = velocity_i * math.sin(theta) * time/2 - 1/2 * g * (time/2)**2
             values["height"] = height
 
         change = True
@@ -140,40 +150,37 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                 if time != values["time"]:
                     values["time"] = time
                     changes = True
-            if v0 and time:
-                distance = v0 * time
+            if velocity_i and time:
+                distance = velocity_i * time
                 if distance != values["distance"]:
                     values["distance"] = distance
                     changes = True
-            if v0 and distance:
+            if velocity_i and distance:
                 time = math.sqrt(2*height/g)
                 if time != values["time"]:
                     values["time"] = time
                     changes = True
-                v0 = distance/time
-                if v0 != values["vi"]:
-                    values["vi"] = v0
+                velocity_i = distance/time
+                if velocity_i != values["vi"]:
+                    values["vi"] = velocity_i
                     changes = True
-            if theta and v0:
-                time = 4 * v0 * math.sin(theta)/g
+            if theta and velocity_i:
+                time = 4 * velocity_i * math.sin(theta)/g
                 if time != values["time"]:
                     values["time"] = time
                     changes = True
-                distance = v0 * math.cos(theta) * time
+                distance = velocity_i * math.cos(theta) * time
                 if distance != values["distance"]:
                     values["distance"] = time
                     changes = True
-                height = v0 * math.sin(theta) * time/2 - 1/2 * g * (time/2)**2
+                height = velocity_i * math.sin(theta) * time/2 - 1/2 * g * (time/2)**2
                 if height != values["height"]:
                     values["height"] = height
                     changes = True
         return values
 
-    types["hill"] = hillproblem(hill_input)
-    types["projectile"] = projectileproblem(proj_input)
-    types["kinematics"] = kinematicproblem()
 
-    def kinematicproblem()
+    def kinematicproblem(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f=None, distance=None, time=None, torque=None, radius=None, theta=None, height = None):
         if mass and acceleration:
             force = mass * acceleration
             values["force"] = force
@@ -323,5 +330,9 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                 if time_noaccel != values["time"]:
                     values["time"] = time_noaccel
                     change = True
-
         return values
+
+    types["hill"] = hillproblem(force, mass, acceleration, velocity_i, velocity_f, distance, time, torque, radius, theta, height)
+    types["projectile"] = projectileproblem(force, mass, acceleration, velocity_i, velocity_f, distance, time, torque, radius, theta, height)
+    types["kinematics"] = kinematicproblem(force, mass, acceleration, velocity_i, velocity_f, distance, time, torque, radius, theta, height)
+    return types["hill"]
