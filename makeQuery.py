@@ -4,8 +4,6 @@ import urllib2
 import urllib
 from xml.dom.minidom import parseString
 
-
-
 def makeQuery(query):
     #modquery = urllib.urlencode({'q':query})
     #print modquery
