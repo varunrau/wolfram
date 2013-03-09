@@ -1,4 +1,4 @@
-from bottle import route, run, template, view, post, request
+from bottle import route, run, template, view, post, request, get, static_file
 import re
 
 @route('/')
@@ -25,5 +25,19 @@ def evaluate(query):
     match = values_matches[0]
     question = match[:-1]
     return (values, question)
+
+""" The next three methods are used to serve static files. """
+@get('/<filename:re:.*\.js>')
+def javascripts(filename):
+    return static_file(filename, root='static/js')
+
+@get('/<filename:re:.*\.css>')
+def stylesheets(filename):
+    return static_file(filename, root='static/css')
+
+@get('/<filename:re:.*\.png>')
+def images(filename):
+    return static_file(filename, root='static/images')
+
 
 run(host='localhost', port=8000, debug=True)
