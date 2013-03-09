@@ -93,6 +93,28 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
     types = {}
 
     def hillproblem(mass, accel = 0, distance, theta, height, v0, time, force):
+    if v0 & time & theta:
+        dist1 = v0 * time - 1/2 * g * math.sin(theta) * time**2
+        values["distance"] = dist1
+    if distance and time != 0 and theta:
+        v0 = (distance - .5 * g * math.sin(theta) * time**2)/time
+        values["vi"] = v0
+    if v0 and distance and theta:
+        time_nof = quadratic(.5 * g * math.sin(theta), v0, -distance)
+        values["time"] = time_nof
+    if theta & v0:
+        if accel == 0:
+            accel = g * math.sin(theta)
+        else:
+            accel -= g * math.sin(theta)
+        values["acceleration"] = accel
+        if distance and time and height:
+            height = height * math.sin(theta)
+            values["height"] = height
+    if theta & force:
+        mass = force/(g * sin(theta))
+        values["mass"] = mass
+
         change = True
         while change:
             change = False
@@ -152,10 +174,20 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
                     values["time"] = time
                     changes = True
             if v0 & time:
-                distance = 
+                distance = v0 * time
+                if distance != values["distance"]:
+                    values["distance"] = distance
+                    changes = True
+            if v0 and distance:
+                time = math.sqrt(2*height/g)
+                if time != values["time"]:
+                    values["time"] = time
+                    changes = True
+
     types["hill"] = hillproblem(hillinput)
     types["projectile"]
     """
+    
 
 
     if mass and acceleration:
