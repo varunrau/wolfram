@@ -1,5 +1,3 @@
-to run just type: python makeQuery.py 
-
 import re
 import sys
 import urllib2
@@ -15,7 +13,7 @@ def makeQuery(query):
     data = file.read()
     file.close()
     dom = parseString(data)
-   
+
     xmlTag = dom.getElementsByTagName('plaintext')[0].toxml()
     xmlData=xmlTag.replace('<plaintext>','').replace('</plaintext>','')
 
