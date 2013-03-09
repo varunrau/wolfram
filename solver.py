@@ -267,7 +267,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
 
 
     def kinematicproblem(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f=None, distance=None, time=None, torque=None, radius=None, theta=None, height = None):
-        steps = Queue.Queue()    
+        steps = Queue.Queue()
         if mass and acceleration:
             force = mass * acceleration
             values["force"] = force
@@ -459,7 +459,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
         statement = "Here we will show you the steps we took to get the answer. /nFirst, we do: "
         first = steps.get()
         statement += first
-        while !steps.empty():
+        while not steps.empty():
             statement += "/n Then: "
             statement += steps.get()
         return statement
@@ -468,3 +468,4 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
     types["projectile"] = projectileproblem(force, mass, acceleration, velocity_i, velocity_f, distance, time, torque, radius, theta, height)
     types["kinematics"] = kinematicproblem(force, mass, acceleration, velocity_i, velocity_f, distance, time, torque, radius, theta, height)
     return types["projectile"]
+

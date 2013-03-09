@@ -14,14 +14,20 @@ def main():
 @view('main_template')
 def q():
     value = request.forms.get('value')
-    return dict(values=values)
+    vals_dict = create_query(value)
+    print vals_dict
+    vals_list = get_vals(vals_dict)
+    values = solver(vals_list[0], vals_list[1], vals_list[2], vals_list[3], vals_list[4], vals_list[5], vals_list[6], vals_list[7], vals_list[8], vals_list[9], vals_list[10])
+    new_dict = {}
+    for key in values:
+        if values[key] is not None:
+            new_dict[key] = values[key]
+    return dict(values=new_dict)
 
 @post('/query-async')
 def qa():
     query_dict = request.POST.dict
     query_string = query_dict['value']
-    import ipdb; ipdb.set_trace() # BREAKPOINT
-
     print query_string
     vals_dict = create_query(query_string)
     print vals_dict
@@ -35,28 +41,28 @@ def get_vals(vals_dict):
     for key in vals_dict:
         value = vals_dict[key]
         if value is not None:
-            if 'newtons' in "".join(value[1:].split()):
-                to_return[0] = value[0]
-            elif 'grams' in "".join(value[1:].split()):
-                to_return[0] = value[1]
-            elif 'meters per second squared' in "".join(value[1:].split()):
-                to_return[0] = value[2]
-            elif 'meters per second' in "".join(value[1:].split()):
-                to_return[0] = value[3]
-            elif 'meters per second' in "".join(value[1:].split()):
-                to_return[0] = value[4]
-            elif 'meters' in "".join(value[1:].split()):
-                to_return[0] = value[5]
-            elif 'seconds' in "".join(value[1:].split()):
-                to_return[0] = value[6]
-            elif 'stuff' in "".join(value[1:].split()):
-                to_return[0] = value[7]
-            elif 'meters' in "".join(value[1:].split()):
-                to_return[0] = value[8]
-            elif 'degrees' in "".join(value[1:].split()):
-                to_return[0] = value[9]
-            elif 'meters' in "".join(value[1:].split()):
-                to_return[0] = value[10]
+            if 'newtons' in value:
+                to_return[0] = value.split()[0]
+            elif 'grams' in value:
+                to_return[1] = value.split()[0]
+            elif 'meters per second squared' in value:
+                to_return[2] = value.split()[0]
+            elif 'meters per second' in value:
+                to_return[3] = value.split()[0]
+            elif 'meters per second' in value:
+                to_return[4] = value.split()[0]
+            elif 'meters' in value:
+                to_return[5] = value.split()[0]
+            elif 'seconds' in value:
+                to_return[6] = value.split()[0]
+            elif 'stuff' in value:
+                to_return[7] = value.split()[0]
+            elif 'meters' in value:
+                to_return[8] = value.split()[0]
+            elif 'degrees' in value:
+                to_return[9] = value.split()[0]
+            elif 'meters' in value:
+                to_return[10] = value.split()[0]
     return to_return
 
 
