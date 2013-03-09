@@ -1,8 +1,6 @@
 from bottle import route, run, template, view, post, request, get, static_file
 import nltk
 import re
-from sympy import Matrix
-from numpy import linalg
 import math
 from solver import *
 
