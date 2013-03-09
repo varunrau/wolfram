@@ -1,4 +1,6 @@
 import math
+import Queue
+
 def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f=None, distance=None, time=None, torque=None, radius=None, theta=None, height = None):
 
     if theta:
@@ -95,7 +97,7 @@ def solver(force=None, mass=None, acceleration=None, velocity_i=None, velocity_f
             height = float(height)
             values["height"] = height
 
-        steps = []
+        steps = Queue.Queue()
 
         if theta:
             if acceleration is None:
