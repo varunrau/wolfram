@@ -116,4 +116,5 @@ def stylesheets(filename):
 def images(filename):
     return static_file(filename, root='static/images')
 
-run(host='localhost', port=8000, debug=True)
+run(host='localhost', port=8002, debug=True)
+
