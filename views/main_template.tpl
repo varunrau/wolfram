@@ -3,7 +3,6 @@
 <link rel="stylesheet" type='text/css' href='bootstrap.css' />
 <script src='jquery-1.9.0.min.js'></script>
 <script src='query.js'></script>
-
 <div class='wrapper'>
 
     <div class='logo'>
