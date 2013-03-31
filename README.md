@@ -11,5 +11,5 @@ A pool ball leaves a 0.60 meter high table with an initial horizontal velocity o
 
 A box is sliding down a 25.0 degrees plane with a sliding force of 455 N Find the weight of the box.
 
-How to run:
+How to Run:
 Currently, the application is not on the web, so you have to run the file locally. First execute wolfram.py in the terminal. The current host is set at 'localhost:8000'. Enter that into your web browser and wolframOmega will then be live.
